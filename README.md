@@ -46,9 +46,27 @@ const basicInfo = {
     id: '1234',
     name: 'testname',
   }, 
-  // extra field for other usage -> required for VideoRoom plugin
+  // extra field for other usage -> optional for VideoRoom plugin
   filename: 'filename', // the rec video file name
   rec_dir: '/path/to/recordings-folder/', // the rec video file path to janus-server
+  createRoomConfig: {
+    request: 'create',
+    room: janusRoomId, 
+    // <unique numeric ID, optional, chosen by plugin if missing>, 
+    notify_joining: true,
+    /* 
+      true|false (optional, whether to notify all participants when a new
+      participant joins the room. The Videoroom plugin by design only notifies
+      new feeds (publishers), and enabling this may result extra notification
+      traffic. This flag is particularly useful when enabled with \c require_pvtid
+      for admin to manage listening only participants. default=false) 
+    */
+    bitrate: 128000,
+    publishers: 2, // default is 3,
+    record: true, // deside record video stream or not
+    rec_dir: '/path/to/recordings-folder/',
+    // other property could refer to Video Room API https://janus.conf.meetecho.com/docs/videoroom.html
+  }
 };
 
 const callbacks = { // defined the callbacks you want,
@@ -56,6 +74,16 @@ const callbacks = { // defined the callbacks you want,
   },
   onremotestream: (remoteList) => {
   },
+  // optional to hanlde those callbacks below ...
+  consentDialog: (on) => {
+  },
+  mediaState: (medium, on) => {
+  },
+  webrtcState: (on) => {
+  },
+  onmessage: (msg, jsep) => { 
+  },
+  oncleanup = () => {},
 }
 
 const successCallback = handler => this.pluinHandler = handler; // save pluginHandler for later usage
