@@ -23,7 +23,9 @@ const config = {
   debug: true || false, // set console will log information for debug or not
   server: 'wss://localhost:28989/', // set janus server wss url address 
 };
+
 JanusHelper.setConfig(config);
+
 // after setConfig init the janus and create session for later usage.
 JanusHelper.init();
 ```
@@ -32,7 +34,9 @@ JanusHelper.init();
 Image this processs is dealing with attaching plugin to a running session.
 ```Javascript
 import { JanusHelper, plugins } from 'janus-helper'
+
 const chosenPlugin = plugins.VideoRoom; // or plugins.SIP choose the plugin that already defined by plugins (now support VideoRoom and SIP only)
+
 const basicInfo = { 
   roomInfo: { // videoRoom info -> required for VideoRoom plugin
     id: janusRoomId, // the id for creating janus-videoroom
@@ -46,12 +50,15 @@ const basicInfo = {
   filename: 'filename', // the rec video file name
   rec_dir: '/path/to/recordings-folder/', // the rec video file path to janus-server
 };
+
 const callbacks = { // defined the callbacks you want,
   onlocalstream: (stream) => {
   },
   onremotestream: (remoteList) => {
   },
 }
-const onChangeHandler = handler => this.pluinHandler = handler;
+
+const onChangeHandler = handler => this.pluinHandler = handler; // save pluginHandler for later usage
+
 JanusHelper.injectPlugin(chosen, basicInfo, callbacks).then(onChangeHandler);
 ```
