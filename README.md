@@ -40,11 +40,11 @@ const chosenPlugin = plugins.VideoRoom; // or plugins.SIP choose the plugin that
 const basicInfo = { 
   roomInfo: { // videoRoom info -> required for VideoRoom plugin
     id: janusRoomId, // the id for creating janus-videoroom
-    unigueRoomId, // the id for identify each room instance
+    unigueRoomId, // the id for identify each room instance e.g. uuid()
   },
   userInfo: { // user info -> required
-    id: userInfo.user_id,
-    name: userInfo.user_name,
+    id: '1234',
+    name: 'testname',
   }, 
   // extra field for other usage -> required for VideoRoom plugin
   filename: 'filename', // the rec video file name
@@ -58,7 +58,9 @@ const callbacks = { // defined the callbacks you want,
   },
 }
 
-const onChangeHandler = handler => this.pluinHandler = handler; // save pluginHandler for later usage
+const successCallback = handler => this.pluinHandler = handler; // save pluginHandler for later usage
 
-JanusHelper.injectPlugin(chosen, basicInfo, callbacks).then(onChangeHandler);
+const errorCallback = er => console.log(er);
+
+JanusHelper.injectPlugin(chosen, basicInfo, callbacks).then(successCallback).catch(errorCallback);
 ```
