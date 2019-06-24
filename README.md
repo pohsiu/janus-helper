@@ -14,7 +14,7 @@ import { JanusHelper, plugins, Janus } from 'janus-helper'
 ## janus-helper API
 I designed as singleton.
 
-##### JanusHelper methods
+> JanusHelper methods
 ##### setConfig(config), init
 ```Javascript
 import { JanusHelper } from 'janus-helper'
