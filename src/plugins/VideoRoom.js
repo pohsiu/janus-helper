@@ -80,16 +80,18 @@ class VideoRoom extends PluginBase {
   }
 
   createRoom = (handler) => {
+    const defaultRoomInfo = {
+      request: 'create',
+      room: this.roomInfo.id,
+      notify_joining: true,
+      bitrate: 128000,
+      publishers: 2, // default is 3,
+      record: true,
+      rec_dir: this.extras.rec_dir ? this.extras.rec_dir : `/path/to/recordings-folder/${this.roomInfo.unigueRoomId}`,
+    }
+    
     handler.send({
-      message: {
-        request: 'create',
-        room: this.roomInfo.id,
-        notify_joining: true,
-        bitrate: 128000,
-        publishers: 2, // default is 3,
-        record: true,
-        rec_dir: this.extras.rec_dir ? this.extras.rec_dir : `/path/to/recordings-folder/${this.roomInfo.unigueRoomId}`,
-      },
+      message: this.extras.createRoomConfig ? this.extras.createRoomConfig : defaultRoomInfo,
       error: error => Janus.error('[VideoRoom] er', error),
     });
   }
