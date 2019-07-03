@@ -12,9 +12,7 @@ import { JanusHelper, plugins, Janus } from 'janus-helper'
 ```
 
 ## janus-helper API
-I designed as singleton.
-
-> JanusHelper methods
+JanusHelper methods
 ##### setConfig(config), init
 ```Javascript
 import { JanusHelper } from 'janus-helper'
@@ -24,10 +22,10 @@ const config = {
   server: 'wss://localhost:28989/', // set janus server wss url address 
 };
 
-JanusHelper.setConfig(config);
+const janus = new JanusHelper(config);
 
 // after setConfig init the janus and create session for later usage.
-JanusHelper.init();
+janus.init();
 ```
 
 ##### injectPlugin(plugin instance, basic inforamtion {}, callbacks {}) that would return a plugin handler through Promise
@@ -90,5 +88,5 @@ const successCallback = handler => this.pluinHandler = handler; // save pluginHa
 
 const errorCallback = er => console.log(er);
 
-JanusHelper.injectPlugin(chosen, basicInfo, callbacks).then(successCallback).catch(errorCallback);
+janus.injectPlugin(chosen, basicInfo, callbacks).then(successCallback).catch(errorCallback);
 ```

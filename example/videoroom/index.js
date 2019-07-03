@@ -1,5 +1,8 @@
-import ComposeVideo from './ComposeVideo';
-import Janus from '../../src/janus';
+import React from 'react';
+import { 
+  JanusHelper,
+  JanusContext,
+} from '../../src';
 
 const janusRoomId = 1234;
 const unigueRoomId = Janus.randomString(12);
@@ -9,63 +12,26 @@ const userInfo = {
 };
 
 export default class VideoRoom extends React.Component {
-
-  onLocalChange = (stream) => {
-    this.setState({ localStream: stream });
-  }
-
-  onRemoteChange = (stream) => {
-    this.setState({ remoteStream: stream });
-  }
-
-  onHandlerChange = (handler) => {
-    this.videoRoomHandler = handler;
+  componentDidMount() {
+    const config = { server: 'wss://localhost:28989', debug: false };
+    this.janus = new JanusHelper(config);
   }
 
   render() {
     return (
       <div>
-        <ComposeVideo
-          onlocalstream={this.onLocalChange}
-          onremotestream={this.onRemoteChange}
-          onhandler={this.onHandlerChange}
-          janusRoomId={janusRoomId}
-          unigueRoomId={unigueRoomId}
-          userInfo={userInfo}
-        />
-        <div 
-          style={{
-            position: 'relative',
-            maxHeight: '100%',
-            width: '92%',
-            maxWidth: '92%',
-            display: 'flex',
-            flex: 1,
-          }}>
-          <Video
-            key="remoteStream"
-            srcObject={remoteStream}
-            autoPlay
-            style={{
-              display: 'flex',
-              flex: 1,
-              width: '100%',
-            }}
-          />
-          <Video key="localstream" 
-            srcObject={localStream}
-            autoPlay
-            style={{
-              position: 'absolute',
-              width: 160,
-              height: 90,
-              top: 0,
-              left: 0,
-              display: 'flex',
-              transform: 'scaleX(-1)'
-            }}
-          />
-        </div>
+        <JanusContext.Provider value={{ janus: this.janus }}>
+          <JanusContext.Consumer>
+            {({ janus }) => (
+              <StreamVideo 
+                janus={janus}
+                unigueRoomId={unigueRoomId}
+                userInfo={userInfo}
+                janusRoomId={janusRoomId}
+              />
+            )}
+          </JanusContext.Consumer>
+        </JanusContext.Provider>
       </div>
     )
   }

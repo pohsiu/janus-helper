@@ -67,17 +67,26 @@ class JanusHelper {
       } catch (er) {
         PlugIns = er;
       }
-      this.plugins = {};
-      this.initPromise = null;
-      this.janus.destroy({
-        success: () => resolve({
+      if (!this.janus) {
+        resolve({
           session: 200,
           plugins: PlugIns,
-        }),
+        });
+      }
+      this.janus.destroy({
+        success: () => {
+          resolve({
+            session: 200,
+            plugins: PlugIns,
+          });
+          this.plugins = {};
+          this.initPromise = null;
+          this.destroyPromise = null;
+        },
         error: er => reject(er),
       });
     });
   }
 }
 
-export default new JanusHelper();
+export default JanusHelper;
