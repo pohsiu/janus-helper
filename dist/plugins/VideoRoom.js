@@ -110,16 +110,18 @@ var VideoRoom = (_temp = _class = function (_PluginBase) {
     };
 
     _this.createRoom = function (handler) {
+      var defaultRoomInfo = {
+        request: 'create',
+        room: _this.roomInfo.id,
+        notify_joining: true,
+        bitrate: 128000,
+        publishers: 2, // default is 3,
+        record: true,
+        rec_dir: _this.extras.rec_dir ? _this.extras.rec_dir : '/path/to/recordings-folder/' + _this.roomInfo.unigueRoomId
+      };
+
       handler.send({
-        message: {
-          request: 'create',
-          room: _this.roomInfo.id,
-          notify_joining: true,
-          bitrate: 128000,
-          publishers: 2, // default is 3,
-          record: true,
-          rec_dir: _this.extras ? '' + _this.extras.rec_dir : '/path/to/recordings-folder/' + _this.roomInfo.unigueRoomId
-        },
+        message: _this.extras.createRoomConfig ? _this.extras.createRoomConfig : defaultRoomInfo,
         error: function error(_error) {
           return _janus2.default.error('[VideoRoom] er', _error);
         }
@@ -357,7 +359,7 @@ var VideoRoom = (_temp = _class = function (_PluginBase) {
             audio: useAudio,
             video: true,
             bitrate: 0,
-            filename: _this.extras ? '' + _this.extras.filename : _this.userInfo.id
+            filename: _this.extras.filename ? _this.extras.filename : _this.userInfo.id
           };
           // // You can force a specific codec to use when publishing by using the
           // // audiocodec and videocodec properties, for instance:

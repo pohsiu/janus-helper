@@ -131,21 +131,28 @@ var JanusHelper = (_temp = _class = function JanusHelper(config) {
                 PlugIns = _context2.t0;
 
               case 10:
-                _this.plugins = {};
-                _this.initPromise = null;
+                if (!_this.janus) {
+                  resolve({
+                    session: 200,
+                    plugins: PlugIns
+                  });
+                }
                 _this.janus.destroy({
                   success: function success() {
-                    return resolve({
+                    resolve({
                       session: 200,
                       plugins: PlugIns
                     });
+                    _this.plugins = {};
+                    _this.initPromise = null;
+                    _this.destroyPromise = null;
                   },
                   error: function error(er) {
                     return reject(er);
                   }
                 });
 
-              case 13:
+              case 12:
               case 'end':
                 return _context2.stop();
             }
@@ -159,4 +166,4 @@ var JanusHelper = (_temp = _class = function JanusHelper(config) {
     }());
   };
 }, _temp);
-exports.default = new JanusHelper();
+exports.default = JanusHelper;

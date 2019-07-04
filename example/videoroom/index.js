@@ -20,6 +20,7 @@ export default class VideoRoom extends React.Component {
   render() {
     return (
       <div>
+        {/* Highly recommend you use context to implement */}
         <JanusContext.Provider value={{ janus: this.janus }}>
           <JanusContext.Consumer>
             {({ janus }) => (
@@ -32,6 +33,13 @@ export default class VideoRoom extends React.Component {
             )}
           </JanusContext.Consumer>
         </JanusContext.Provider>
+        {/* Traditional familiar way to implement .. */}
+        <StreamVideo 
+          janus={this.janus}
+          unigueRoomId={unigueRoomId}
+          userInfo={userInfo}
+          janusRoomId={janusRoomId}
+        />
       </div>
     )
   }

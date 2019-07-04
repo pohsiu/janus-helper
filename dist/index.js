@@ -31,4 +31,13 @@ Object.defineProperty(exports, 'Janus', {
   }
 });
 
+var _JanusContext = require('./JanusContext');
+
+Object.defineProperty(exports, 'JanusContext', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_JanusContext).default;
+  }
+});
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
