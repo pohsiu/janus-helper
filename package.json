@@ -1,6 +1,6 @@
 {
   "name": "janus-helper",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Integration of janus.js library and plugins(Sip and Videoroom)",
   "main": "dist/index.js",
   "scripts": {
@@ -13,6 +13,10 @@
   ],
   "author": "Louis",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pohsiu/janus-helper"
+  },
   "dependencies": {
     "webrtc-adapter": "^7.2.4"
   },
