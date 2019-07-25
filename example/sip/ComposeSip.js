@@ -33,7 +33,7 @@ class ComposeSip extends React.PureComponent {
       config,
       {
         oncleanup: () => {
-          console.log('on clean up');
+          console.log('[SIP] clean up');
           callbacks.oncleanup();
         },
         onlocalstream: (stream) => {
@@ -45,6 +45,9 @@ class ComposeSip extends React.PureComponent {
           callbacks.onremotestream(stream);
         },
         onmessage: {
+          failed: (e) => {
+            callbacks.failed(e);
+          },
           registered: () => {
             callbacks.registered();
           },
@@ -55,16 +58,19 @@ class ComposeSip extends React.PureComponent {
             callbacks.incomingcall(userInfo, data);
           },
           accepted: () => {
+            console.log('[SIP] accepted');
             callbacks.accepted();
           },
           calling: () => {
+            console.log('[SIP] calling');
             callbacks.calling();
           },
           hangup: () => {
-            console.log('SIP', 'hangup');
+            console.log('[SIP] hangup');
             callbacks.hangup();
           },
           reject: () => {
+            console.log('[SIP] rejected');
             callbacks.reject();
           },
           unavailable: () => {
