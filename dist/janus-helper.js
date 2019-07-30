@@ -4,17 +4,21 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _class, _temp, _initialiseProps;
 
 var _janus = require('./janus');
 
 var _janus2 = _interopRequireDefault(_janus);
 
-var _config = require('./config');
+var _config2 = require('./config');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -41,12 +45,28 @@ var JanusHelper = (_temp = _class = function JanusHelper(config) {
     }
     return _this.initPromise = new Promise(function (resolve, reject) {
       // eslint-disable-line no-return-assign
+      var _config = _this.config,
+          debug = _config.debug,
+          _config$server = _config.server,
+          server = _config$server === undefined ? 'wss://' + _config2.janusHost + ':' + _config2.janusWSSPort + '/' : _config$server,
+          extras = _objectWithoutProperties(_config, ['debug', 'server']);
+
       _janus2.default.init({
         debug: _this.config.debug || false,
         callback: function callback() {
           console.log('==== init success ====');
-          _this.janus = new _janus2.default({
-            server: _this.config.server || 'wss://' + _config.janusHost + ':' + _config.janusWSSPort + '/',
+          _this.janus = new _janus2.default(_extends({
+            server: server
+          }, extras, {
+            // No "iceServers" is provided, meaning janus.js will use a default STUN server
+            // Here are some examples of how an iceServers field may look like to support TURN
+            // 		iceServers: [{url: "turn:yourturnserver.com:3478", username: "janususer", credential: "januspwd"}],
+            // 		iceServers: [{url: "turn:yourturnserver.com:443?transport=tcp", username: "janususer", credential: "januspwd"}],
+            // 		iceServers: [{url: "turns:yourturnserver.com:443?transport=tcp", username: "janususer", credential: "januspwd"}],
+            // Should the Janus API require authentication, you can specify either the API secret or user token here too
+            //		token: "mytoken",
+            //	or
+            //		apisecret: "serversecret",
             success: function success() {
               console.log('==== create session success ====');
               resolve(200);
@@ -56,7 +76,7 @@ var JanusHelper = (_temp = _class = function JanusHelper(config) {
               _this.janus = null;
               _this.initPromise = null;
             }
-          });
+          }));
         }
       });
     });

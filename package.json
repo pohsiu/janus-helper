@@ -1,6 +1,6 @@
 {
   "name": "janus-helper",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "Integration of janus.js library and plugins(Sip and Videoroom)",
   "main": "dist/index.js",
   "scripts": {
