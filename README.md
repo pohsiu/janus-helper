@@ -81,12 +81,12 @@ const callbacks = { // defined the callbacks you want,
   },
   onmessage: (msg, jsep) => { 
   },
-  oncleanup = () => {},
+  oncleanup: () => {},
 }
 
 const successCallback = handler => this.pluinHandler = handler; // save pluginHandler for later usage
 
 const errorCallback = er => console.log(er);
 
-janus.injectPlugin(chosen, basicInfo, callbacks).then(successCallback).catch(errorCallback);
+janus.injectPlugin(chosenPlugin, basicInfo, callbacks).then(successCallback).catch(errorCallback);
 ```
