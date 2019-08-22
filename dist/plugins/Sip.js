@@ -227,11 +227,10 @@ var Sip = (_temp = _class = function (_PluginBase) {
               return;
             }
             if (event === 'registered') {
+              if (_this2.registered) return;
               _janus2.default.log('[SIP] Successfully registered as ' + result.username + '!');
               // TODO Enable buttons to call now
-              if (!_this2.registered) {
-                _this2.registered = true;
-              }
+              _this2.registered = true;
               _onmessage.registered();
             } else if (event === 'calling') {
               _janus2.default.log('[SIP] Waiting for the peer to answer...');

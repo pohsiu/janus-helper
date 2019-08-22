@@ -173,11 +173,10 @@ class Sip extends PluginBase {
                 return;
               }
               if (event === 'registered') {
+                if (this.registered) return;
                 Janus.log(`[SIP] Successfully registered as ${result.username}!`);
                 // TODO Enable buttons to call now
-                if (!this.registered) {
-                  this.registered = true;
-                }
+                this.registered = true;
                 onmessage.registered();
               } else if (event === 'calling') {
                 Janus.log('[SIP] Waiting for the peer to answer...');
