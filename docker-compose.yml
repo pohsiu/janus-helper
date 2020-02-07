@@ -1,0 +1,19 @@
+version: '3.2'
+
+services:
+  janus:
+    image: shaw745/janus // pull image from docker-hub
+    container_name: my-janus
+    ports:
+      - 27081:8080 # for http python api
+      - 27080:80 # for HTML-Examples(http)
+      - 27443:443 # for HTML-Examples(https)
+      - 28088:8088 # for RESTful http  API
+      - 28089:8089 # for RESTful https API
+      - 28188:8188 # for WebSocket  WS  API
+      - 28989:8989 # for WebSocket  WSS API
+      - 27088:7088 # for http admin API
+      - 27889:7889 # for https admin API
+    volumes:
+      - ./recordings-folder/:/path/to/recordings-folder/
+    command: bash startup.sh #tail -f /dev/null #bash startup.sh
