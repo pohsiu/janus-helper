@@ -90,3 +90,5 @@ const errorCallback = er => console.log(er);
 
 janus.injectPlugin(chosenPlugin, basicInfo, callbacks).then(successCallback).catch(errorCallback);
 ```
+### Extra require dependency
+- https://www.npmjs.com/package/react
